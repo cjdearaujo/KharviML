@@ -1,0 +1,44 @@
+stages:
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+      - src/data/preprocess.py
+      - data/raw/fish_catch_data_turkey.csv
+      - params.yaml
+    params:
+      - data.raw_path
+      - data.processed_path
+    outs:
+      - data/processed/fish_processed.csv
+
+  train_price:
+    cmd: python src/models/train_price.py
+    deps:
+      - src/models/train_price.py
+      - data/processed/fish_processed.csv
+      - params.yaml
+    params:
+      - models.rf_n_estimators
+      - models.rf_max_depth
+      - models.xgb_n_estimators
+      - models.xgb_learning_rate
+    outs:
+      - models/price_model.pkl
+      - models/price_scaler.pkl
+      - models/price_feature_cols.pkl
+
+  train_catch:
+    cmd: python src/models/train_catch.py
+    deps:
+      - src/models/train_catch.py
+      - data/processed/fish_processed.csv
+      - params.yaml
+    params:
+      - models.rf_n_estimators
+      - models.rf_max_depth
+      - models.xgb_n_estimators
+      - models.xgb_learning_rate
+    outs:
+      - models/catch_model.pkl
+      - models/catch_scaler.pkl
+      - models/catch_feature_cols.pkl

@@ -1,0 +1,94 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+    - path: data/raw/fish_catch_data_turkey.csv
+      hash: md5
+      md5: fbdc523b185a24e6a9acf032cf21e1ac
+      size: 1067797
+    - path: params.yaml
+      hash: md5
+      md5: 4dc7c61fb967edd9880ea6ffb904bb50
+      size: 595
+    - path: src/data/preprocess.py
+      hash: md5
+      md5: edd8164b9b35a60622d8dc399f002e5b
+      size: 2438
+    params:
+      params.yaml:
+        data.processed_path: data/processed/fish_processed.csv
+        data.raw_path: data/raw/fish_catch_data_turkey.csv
+    outs:
+    - path: data/processed/fish_processed.csv
+      hash: md5
+      md5: 0d74fe757595d239b1db9850b74cc558
+      size: 2157443
+  train_price:
+    cmd: python src/models/train_price.py
+    deps:
+    - path: data/processed/fish_processed.csv
+      hash: md5
+      md5: 0d74fe757595d239b1db9850b74cc558
+      size: 2157443
+    - path: params.yaml
+      hash: md5
+      md5: 4dc7c61fb967edd9880ea6ffb904bb50
+      size: 595
+    - path: src/models/train_price.py
+      hash: md5
+      md5: 4299f73eeccc61da42b410a338c3cc70
+      size: 6882
+    params:
+      params.yaml:
+        models.rf_max_depth: 8
+        models.rf_n_estimators: 100
+        models.xgb_learning_rate: 0.1
+        models.xgb_n_estimators: 100
+    outs:
+    - path: models/price_feature_cols.pkl
+      hash: md5
+      md5: 4d5c7b77d3f7e4bfade15d1f4f4adbc3
+      size: 587
+    - path: models/price_model.pkl
+      hash: md5
+      md5: 653839c10cb012b7776024246ddc5732
+      size: 190636
+    - path: models/price_scaler.pkl
+      hash: md5
+      md5: f7e92410d6664a5c50f73c5e7f988261
+      size: 2263
+  train_catch:
+    cmd: python src/models/train_catch.py
+    deps:
+    - path: data/processed/fish_processed.csv
+      hash: md5
+      md5: 0d74fe757595d239b1db9850b74cc558
+      size: 2157443
+    - path: params.yaml
+      hash: md5
+      md5: 4dc7c61fb967edd9880ea6ffb904bb50
+      size: 595
+    - path: src/models/train_catch.py
+      hash: md5
+      md5: d103b67c360be43f1387eabaee0528fe
+      size: 6862
+    params:
+      params.yaml:
+        models.rf_max_depth: 8
+        models.rf_n_estimators: 100
+        models.xgb_learning_rate: 0.1
+        models.xgb_n_estimators: 100
+    outs:
+    - path: models/catch_feature_cols.pkl
+      hash: md5
+      md5: fbf0663258d973f9db7276b33383fbb4
+      size: 565
+    - path: models/catch_model.pkl
+      hash: md5
+      md5: 0abcf0acee52e528198d3545007cd194
+      size: 847
+    - path: models/catch_scaler.pkl
+      hash: md5
+      md5: 55fa33605299d2cb1f0d49ff8e165b30
+      size: 2191

@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "fishcast-api"
+    static_configs:
+      - targets: ["fishcast-api:8000"]

@@ -17,3 +17,9 @@ monitoring/reports/
 *.pt
 *.h5
 .DS_Store
+venv/
+mlartifacts/
+__pycache__/
+*.pyc
+data/processed/
+*.log

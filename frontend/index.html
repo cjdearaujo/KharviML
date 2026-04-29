@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KharviML | Fish Market Prediction</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Header Area -->
+        <header class="sidebar">
+            <div class="brand">
+                <div class="logo">
+                    <span class="material-symbols-outlined icon-large">water</span>
+                </div>
+                <div>
+                    <h1>KharviML</h1>
+                    <p class="subtitle">Fish Market & Yield AI</p>
+                </div>
+            </div>
+            
+            <div class="intro-text">
+                <p>Predict fish market outcomes and catch volume across Turkish coastal regions using machine learning.</p>
+            </div>
+
+            <div class="api-status" id="apiStatusContainer">
+                <div class="status-indicator" id="apiStatusDot"></div>
+                <span id="apiStatusText">Checking API...</span>
+            </div>
+
+            <div class="sidebar-decoration">
+                <!-- Decorative element -->
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <form id="predictionForm" class="prediction-form">
+                <div class="form-grid">
+                    
+                    <!-- Section 1: Fish Details -->
+                    <section class="form-section">
+                        <div class="section-header">
+                            <span class="material-symbols-outlined">set_meal</span>
+                            <h2>Fish Details</h2>
+                        </div>
+                        <div class="input-group">
+                            <label for="species">Species</label>
+                            <select id="species" name="species" required>
+                                <option value="" disabled selected>Select species...</option>
+                                <option value="Çipura (Sea Bream)">Çipura (Sea Bream)</option>
+                                <option value="Hamsi (Anchovy)">Hamsi (Anchovy)</option>
+                                <option value="İstavrit (Horse Mackerel)">İstavrit (Horse Mackerel)</option>
+                                <option value="Kalkan (Turbot)">Kalkan (Turbot)</option>
+                                <option value="Levrek (Sea Bass)">Levrek (Sea Bass)</option>
+                                <option value="Lüfer (Bluefish)">Lüfer (Bluefish)</option>
+                                <option value="Palamut (Bonito)">Palamut (Bonito)</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="weight_g">Weight (g)</label>
+                                <input type="number" step="0.1" id="weight_g" name="weight_g" placeholder="e.g. 250" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="age_years">Age (Years)</label>
+                                <input type="number" id="age_years" name="age_years" placeholder="e.g. 2" required>
+                            </div>
+                        </div>
+                        <div class="input-row triple">
+                            <div class="input-group">
+                                <label for="length_cm">Length (cm)</label>
+                                <input type="number" step="0.1" id="length_cm" name="length_cm" placeholder="e.g. 25" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="width_cm">Width (cm)</label>
+                                <input type="number" step="0.1" id="width_cm" name="width_cm" placeholder="e.g. 5" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="height_cm">Height (cm)</label>
+                                <input type="number" step="0.1" id="height_cm" name="height_cm" placeholder="e.g. 10" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 2: Market & Quality Details -->
+                    <section class="form-section">
+                        <div class="section-header">
+                            <span class="material-symbols-outlined">storefront</span>
+                            <h2>Market & Quality</h2>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="month">Month (1-12)</label>
+                                <input type="number" id="month" name="month" min="1" max="12" placeholder="e.g. 10" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="quality_score">Quality Score (0-10)</label>
+                                <input type="number" step="0.1" id="quality_score" name="quality_score" min="0" max="10" placeholder="e.g. 8.5" required>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="season_availability">Season Availability</label>
+                                <input type="number" step="0.01" id="season_availability" name="season_availability" placeholder="e.g. 0.8" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="cost_tl">Cost (TL)</label>
+                                <input type="number" step="0.1" id="cost_tl" name="cost_tl" placeholder="e.g. 150" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 3: Environmental Conditions -->
+                    <section class="form-section">
+                        <div class="section-header">
+                            <span class="material-symbols-outlined">waves</span>
+                            <h2>Environment & Fishing</h2>
+                        </div>
+                        <div class="input-group">
+                            <label for="fishing_area">Fishing Area</label>
+                            <select id="fishing_area" name="fishing_area" required>
+                                <option value="" disabled selected>Select area...</option>
+                                <option value="Aegean Sea">Aegean Sea</option>
+                                <option value="Black Sea">Black Sea</option>
+                                <option value="Marmara Sea">Marmara Sea</option>
+                                <option value="Mediterranean Sea">Mediterranean Sea</option>
+                            </select>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="sea_surface_temp_c">Sea Temp (°C)</label>
+                                <input type="number" step="0.1" id="sea_surface_temp_c" name="sea_surface_temp_c" placeholder="e.g. 16.5" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="wind_speed_kmh">Wind Speed (km/h)</label>
+                                <input type="number" step="0.1" id="wind_speed_kmh" name="wind_speed_kmh" placeholder="e.g. 12" required>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="active_fishing_days">Active Fishing Days</label>
+                                <input type="number" id="active_fishing_days" name="active_fishing_days" placeholder="e.g. 20" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="fishing_ban_flag">Fishing Ban Active?</label>
+                                <select id="fishing_ban_flag" name="fishing_ban_flag" required>
+                                    <option value="0">No (0)</option>
+                                    <option value="1">Yes (1)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btnReset">
+                        <span class="material-symbols-outlined">refresh</span> Reset
+                    </button>
+                    <div class="primary-actions">
+                        <button type="submit" class="btn btn-primary" id="btnPredictPrice" data-endpoint="/predict/price">
+                            <span class="material-symbols-outlined">payments</span> Predict Price
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnPredictCatch" data-endpoint="/predict/catch">
+                            <span class="material-symbols-outlined">phishing</span> Predict Catch
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Results Section -->
+            <div class="results-container">
+                <div id="loadingOverlay" class="loading-overlay hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing parameters...</p>
+                </div>
+                
+                <div id="resultCard" class="result-card hidden">
+                    <div class="result-header">
+                        <span class="material-symbols-outlined" id="resultIcon">analytics</span>
+                        <h3 id="resultTitle">Prediction Result</h3>
+                    </div>
+                    <div class="result-value-container">
+                        <div class="result-value" id="resultValue">--</div>
+                        <div class="result-unit" id="resultUnit"></div>
+                    </div>
+                    <div class="result-details" id="resultDetails">
+                        <!-- Details injected via JS -->
+                    </div>
+                </div>
+
+                <div id="errorCard" class="error-card hidden">
+                    <span class="material-symbols-outlined">error</span>
+                    <div class="error-content">
+                        <h3>Error</h3>
+                        <p id="errorMessage">Something went wrong.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -5,11 +5,20 @@ import joblib
 import numpy as np
 import pandas as pd
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="KharviML Fish Prediction API",
     description="Predicts fish price and catch volume for Turkish coastal regions",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ── Prometheus metrics ────────────────────────────────────────────────────────

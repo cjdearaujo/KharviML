@@ -43,6 +43,15 @@ services:
     environment:
       - MODEL_DIR=models
 
+  frontend:
+    image: nginx:alpine
+    depends_on:
+      - fishcast-api
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    ports:
+      - "5173:80"
+
   prometheus:
     image: prom/prometheus:latest
     volumes:

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'http://127.0.0.1:8000';
+    const API_BASE_URL = "http://kharviml-alb-2038081721.us-east-1.elb.amazonaws.com";
     
     // UI Elements
     const form = document.getElementById('predictionForm');
